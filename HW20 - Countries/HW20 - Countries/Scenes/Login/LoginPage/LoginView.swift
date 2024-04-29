@@ -2,27 +2,20 @@
 //  LoginView.swift
 //  HW20 - Countries
 //
-//  Created by telkanishvili on 26.04.24.
+//  Created by telkanishvili on 29.04.24.
 //
 
 import UIKit
-import Security
-
-protocol ImagePickerAndCacherDelegate: AnyObject {
-    func addPhoto(image: UIImage)
-
-}
-
 
 //MARK: - LoginView
 class LoginView: UIView {
-    
+    //MARK: - UIComponents
     let personImage: UIButton = {
         let personImage = UIButton()
         personImage.translatesAutoresizingMaskIntoConstraints = false
         personImage.layer.cornerRadius =  65
         personImage.layer.masksToBounds = true
-
+        
         return personImage
     }()
     
@@ -35,7 +28,7 @@ class LoginView: UIView {
     }()
     
     let userNameInputField: CustomUITextField = {
-       let userNameInputField = CustomUITextField()
+        let userNameInputField = CustomUITextField()
         userNameInputField.placeholder = "შეიყვანეთ მომხმარებლის სახელი"
         return userNameInputField
     }()
@@ -49,7 +42,7 @@ class LoginView: UIView {
     }()
     
     let passwordInputField: CustomUITextField = {
-       let passwordInputField = CustomUITextField()
+        let passwordInputField = CustomUITextField()
         passwordInputField.placeholder = "შეიყვანეთ პაროლი"
         passwordInputField.isSecureTextEntry = true
         return passwordInputField
@@ -64,7 +57,7 @@ class LoginView: UIView {
     }()
     
     let repeatPasswordInputField: CustomUITextField = {
-       let repeatPasswordInputField = CustomUITextField()
+        let repeatPasswordInputField = CustomUITextField()
         repeatPasswordInputField.placeholder = "განმეორებით შეიყვანეთ პაროლი"
         repeatPasswordInputField.isSecureTextEntry = true
         return repeatPasswordInputField
@@ -80,7 +73,7 @@ class LoginView: UIView {
         return loginButton
     }()
     
-    
+    //MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         addPersonImageToView()
@@ -97,12 +90,12 @@ class LoginView: UIView {
         }
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addPersonImageToView(){
+    //MARK: - Functions 
+    func addPersonImageToView() {
         addSubview(personImage)
         
         NSLayoutConstraint.activate([
@@ -113,9 +106,7 @@ class LoginView: UIView {
         ])
     }
     
-    
-    
-    func supportDarkMode(){
+    func supportDarkMode() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
         personImage.setImage(isDarkMode ? UIImage(named: "DarkPerson") : UIImage(named: "LightPerson"), for: .normal)
@@ -173,104 +164,4 @@ class LoginView: UIView {
         ])
     }
     
-}
-
-class LoginViewController: UIViewController {
-    let loginView = LoginView()
-    let viewModel = LoginViewModel()
-    let defaults = UserDefaults.standard
-    
-
-    
-    //MARK: - Overrides
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addLoginView()
-        photoPicker()
-        loginButtonTapped()
-        viewModel.delegate = self
-    }
-    
-    //MARK: - Functions
-    func addLoginView(){
-        view.addSubview(loginView)
-        
-        loginView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loginView.topAnchor.constraint(equalTo: view.topAnchor),
-            loginView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    func photoPicker(){
-        loginView.personImage.addAction(UIAction(handler: { _ in
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.delegate = self
-            imagePickerController.allowsEditing = true
-            imagePickerController.sourceType = .photoLibrary
-            self.present(imagePickerController, animated: true)
-        }), for: .touchUpInside)
-    }
-    
-    
-    func loginButtonTapped() {
-        loginView.loginButton.addAction(UIAction(handler: { _ in
-            if
-                (self.viewModel.login(username: self.loginView.userNameInputField.text,
-                            password: self.loginView.passwordInputField.text,
-                            repeatPassword: self.loginView.repeatPasswordInputField.text)
-            ) {
-                let countriesVC = CountriesViewController()
-                self.navigationController?.navigationBar.prefersLargeTitles = true
-                countriesVC.navigationItem.title = "Countries"
-                countriesVC.modalPresentationStyle = .fullScreen
-                countriesVC.navigationItem.hidesBackButton = true
-                self.navigationController?.pushViewController(countriesVC, animated: true)
-                countriesVC.loginDidSuccess()
-                self.defaults.set(true, forKey: "isLogged")
-                self.defaults.synchronize()
-            }
-        }), for: .touchUpInside)
-    }
-
-    func addPhoto(image: UIImage){
-        let documentDirectoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let fileURL = documentDirectoryPath?.appendingPathComponent("userImage.png")
-        
-        DispatchQueue.global().async {
-           if let imageData = image.pngData() {
-            do {
-                try imageData.write(to: fileURL!)
-            } catch {
-                print("Error saving image: \(error)")
-            }
-        } else {
-            print("Error converting UIImage to Data")
-        }
-        }
-    }
-    
-}
-
-extension LoginViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
-            loginView.personImage.setImage(image, for: .normal)
-            addPhoto(image: image)
-        } else if let image = info[.originalImage] as? UIImage {
-            loginView.personImage.setImage(image, for: .normal)
-            addPhoto(image: image)
-        }
-        dismiss(animated: true)
-    }
-}
-
-extension LoginViewController: LoginViewModelDelegate {
-    func loginDidFail(withError error: String) {
-        let alertController = UIAlertController(title: "დაფიქსირდა შეცდომა", message: error, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "გასაგებია", style: .default))
-        present(alertController, animated: true)
-    }
 }

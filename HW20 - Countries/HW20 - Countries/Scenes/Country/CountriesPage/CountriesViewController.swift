@@ -1,12 +1,11 @@
 //
-//  ViewController.swift
+//  CountriesViewController.swift
 //  HW20 - Countries
 //
 //  Created by telkanishvili on 21.04.24.
 //
 
 import UIKit
-import Speech
 
 class CountriesViewController: UIViewController {
     //MARK: - Loading state
@@ -36,7 +35,7 @@ class CountriesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController!.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func setupSearchController() {
@@ -50,17 +49,16 @@ class CountriesViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    func setupUI(){
+    func setupUI() {
         addBackgroundColor()
-        
         addCountriesTableView()
     }
     
-    func addBackgroundColor(){
+    func addBackgroundColor() {
         view.backgroundColor = UIColor.dynamicColor(light: .white, dark: #colorLiteral(red: 0.2392157018, green: 0.2392157018, blue: 0.2392157018, alpha: 1))
     }
     
-    func addCountriesTableView(){
+    func addCountriesTableView() {
         view.addSubview(countriesTableView)
         
         NSLayoutConstraint.activate([
@@ -83,6 +81,7 @@ extension CountriesViewController: CountriesViewModelDelegate {
         let detailsVC = CountryDetailsViewController()
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.country = country
+        
         
         navigationController!.navigationBar.prefersLargeTitles = false
         detailsVC.navigationItem.title = country.name.common
@@ -113,29 +112,20 @@ extension CountriesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CountriesCell", for: indexPath) as? CountriesCell
-        let country: Country
         
-        country = countriesViewModel.country(on: indexPath)
-        
-        if let photoUrl = URL(string: country.flags.png ?? "") {
-            cell?.flag.loadImageWith(url: photoUrl)
-            cell?.setNeedsLayout()
-        }
-        
-        if let countryName = country.name.common {
-            cell?.countryLabel.text = countryName
-            
-        }
-        
-        getBorderedLayer(cell: cell!)
-        
+        let countryCellViewModel = countriesViewModel.countryTableViewCellViewModel[indexPath.row]
+
+        cell?.flag.loadImageWith(url: countryCellViewModel.flagUrl ?? URL(fileURLWithPath: ""))
+        cell?.setNeedsLayout()
+        cell?.countryLabel.text = countryCellViewModel.countryName
         cell?.accessoryType = .disclosureIndicator
-        
         cell?.backgroundColor = UIColor.dynamicColor(light: .white, dark:  #colorLiteral(red: 0.2941174507, green: 0.2941178083, blue: 0.3027183115, alpha: 1))
         
+        getBorderedLayer(cell: cell!)
+
         return cell ?? CountriesCell()
     }
-    
+
     func getBorderedLayer(cell: UITableViewCell) {
         cell.layer.cornerRadius = 15
         cell.layer.borderWidth = 1
@@ -147,7 +137,6 @@ extension CountriesViewController: UITableViewDataSource {
         alertController.addAction(UIAlertAction(title: "ქო ბატონი", style: .default))
         present(alertController, animated: true)
     }
-    
 }
 
 //MARK: - Delegate Extension and functions

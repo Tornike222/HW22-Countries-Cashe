@@ -1,11 +1,11 @@
 //
-//  CountryDetailsView.swift
+//  CountryDetailsViewModel.swift
 //  HW20 - Countries
 //
 //  Created by telkanishvili on 26.04.24.
 //
 
-import UIKit
+import Foundation
 import SafariServices
 
 class CountryDetailsViewModel {
@@ -63,7 +63,6 @@ class CountryDetailsViewModel {
             countryDetailsView.regionValueLabel.text = "Unknown"
         }
         
-        
         //sets neighbors
         if let neighbors = country.borders {
             let lastIndexOfNeighborsArray = neighbors.count - 1
@@ -95,14 +94,14 @@ class CountryDetailsViewModel {
                 openSafariForGoogleMap()
             }), for: .touchUpInside)
             
-            func openSafariForstreetMap(){
+            func openSafariForstreetMap() {
                 if let url = URL(string: streetMapUrlString) {
                     let safariViewController = SFSafariViewController(url: url)
                     presentingViewController.present(safariViewController, animated: true)
                 }
             }
             
-            func openSafariForGoogleMap(){
+            func openSafariForGoogleMap() {
                 if let url = URL(string: googleMapUrlString) {
                     let safariViewController = SFSafariViewController(url: url)
                     presentingViewController.present(safariViewController, animated: true)

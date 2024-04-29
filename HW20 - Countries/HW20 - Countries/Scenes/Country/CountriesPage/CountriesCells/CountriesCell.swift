@@ -51,7 +51,7 @@ class CountriesCell: UITableViewCell {
     }
     
     //MARK: - Functions
-    func setSelectionStyle(selected: Bool){
+    func setSelectionStyle(selected: Bool) {
         selectionStyle = .none
     }
     
@@ -60,10 +60,8 @@ class CountriesCell: UITableViewCell {
         addCountryLabel()
     }
 
-    
     func addFlag() {
         contentView.addSubview(flag)
-        
         NSLayoutConstraint.activate([
             flag.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             flag.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
@@ -74,7 +72,6 @@ class CountriesCell: UITableViewCell {
     
     func addCountryLabel() {
         contentView.addSubview(countryLabel)
-        
         NSLayoutConstraint.activate([
             countryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             countryLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)

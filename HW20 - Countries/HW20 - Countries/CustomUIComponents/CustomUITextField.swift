@@ -19,7 +19,7 @@ class CustomUITextField: UITextField {
     }
     
     //MARK: - Functions
-    func setupTextField(){
+    func setupTextField() {
         let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 20))
         
         
@@ -39,7 +39,7 @@ class CustomUITextField: UITextField {
         }
     }
     
-    func supportDarkMode(){
+    func supportDarkMode() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         backgroundColor = isDarkMode ? #colorLiteral(red: 0.2941174507, green: 0.2941178083, blue: 0.3027183115, alpha: 1) :  #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9372549057, alpha: 1)
         

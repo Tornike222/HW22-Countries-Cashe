@@ -5,35 +5,36 @@
 //  Created by telkanishvili on 27.04.24.
 //
 
-import UIKit
+import Foundation
 import Security
 
+//MARK: - Protocols
 protocol LoginViewModelDelegate: AnyObject {
     func loginDidFail(withError error: String)
 }
 
-class LoginViewModel: ImagePickerAndCacherDelegate {
+//MARK: - ViewModel
+class LoginViewModel {
     
-    func addPhoto(image: UIImage){
+    //MARK: - Properties
+    weak var delegate: LoginViewModelDelegate?
+    
+    //MARK: - Functions
+    func addPhoto(image: Data){
         let documentDirectoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         let fileURL = documentDirectoryPath?.appendingPathComponent("userImage.png")
         
         DispatchQueue.global().async {
-           if let imageData = image.pngData() {
-                do {
-                    try imageData.write(to: fileURL!)
-                    print("ფოტო აიტვირთა ფაილის მისამართია \(fileURL!)")
-                } catch {
-                    print("მოხდა შეცდომა: \(error)")
-                }
+            do {
+                try image.write(to: fileURL!)
+                print("ფოტო აიტვირთა ფაილის მისამართია \(fileURL!)")
+            } catch {
+                print("მოხდა შეცდომა: \(error)")
             }
         }
     }
     
-    weak var delegate: LoginViewModelDelegate?
-    
-    
-    func login(username: String?, password: String?, repeatPassword: String?) -> Bool {
+    func isLoginSucceed(username: String?, password: String?, repeatPassword: String?) -> Bool {
         guard let username = username,
               let password = password?.data(using: .utf8),
               let repeatPassword = repeatPassword?.data(using: .utf8)
@@ -64,17 +65,16 @@ class LoginViewModel: ImagePickerAndCacherDelegate {
         return false
     }
     
-    func determineRootViewController() -> UIViewController {
-           if UserDefaults.standard.bool(forKey: "isLogged") {
-               let countriesVC = CountriesViewController()
-               let navigationController = UINavigationController(rootViewController: countriesVC)
-               countriesVC.navigationItem.title = "Countries"
-               countriesVC.modalPresentationStyle = .fullScreen
-               countriesVC.navigationItem.hidesBackButton = true
-               return navigationController
-           } else {
-               return UINavigationController(rootViewController: LoginViewController())
-           }
-       }
+    func determineRootViewController() -> AnyObject {
+        if UserDefaults.standard.bool(forKey: "isAAAAALogged") {
+            let countriesVC = CountriesViewController()
+            countriesVC.navigationItem.title = "Countries"
+            countriesVC.modalPresentationStyle = .fullScreen
+            countriesVC.navigationItem.hidesBackButton = true
+            return countriesVC
+        } else {
+            return LoginViewController()
+        }
+    }
     
 }
