@@ -66,7 +66,7 @@ class LoginViewModel {
     }
     
     func determineRootViewController() -> AnyObject {
-        if UserDefaults.standard.bool(forKey: "isAAAAALogged") {
+        if UserDefaults.standard.bool(forKey: "isLogged") {//ეს შეცვალე და პირველი გვერდიდან დაგაწყებინებს. თუ ქეშიდან გინდა წააკითხო ინფო isLogged ჩაუწერე ქიში
             let countriesVC = CountriesViewController()
             countriesVC.navigationItem.title = "Countries"
             countriesVC.modalPresentationStyle = .fullScreen

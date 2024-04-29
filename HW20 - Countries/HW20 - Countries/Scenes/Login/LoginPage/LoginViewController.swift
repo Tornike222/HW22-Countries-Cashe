@@ -58,7 +58,6 @@ class LoginViewController: UIViewController {
                 let countriesVC = CountriesViewController()
                 countriesVC.navigationItem.title = "Countries"
                 countriesVC.navigationItem.hidesBackButton = true
-                countriesVC.modalPresentationStyle = .fullScreen
                 self.defaults.set(true, forKey: "isLogged")
                 self.defaults.synchronize()
                 if let navigationController = self.navigationController { //ნავიგაციის ვარნინგის დასაჰენდლად დამჭირდა
@@ -68,6 +67,7 @@ class LoginViewController: UIViewController {
                     navigationController.navigationBar.prefersLargeTitles = true
                     navigationController.pushViewController(countriesVC, animated: true)
                     navigationController.setViewControllers([countriesVC], animated: true)
+                    navigationController.modalPresentationStyle = .fullScreen
                 }
             }
         }), for: .touchUpInside)

@@ -113,6 +113,31 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		B20CD8222BDF76B1001C33AD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B26A6A162BD50E9E0026E16A /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B20CD8232BDF76D2001C33AD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B20CD8242BDF76EF001C33AD /* Launch */,
+				B26A6A1B2BD50E9E0026E16A /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B20CD8242BDF76EF001C33AD /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				B26A6A182BD50E9E0026E16A /* LaunchScreen.storyboard */,
+			);
+			path = Launch;
+			sourceTree = "<group>";
+		};
 		B26A6A012BD50E9B0026E16A = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +157,8 @@
 		B26A6A0C2BD50E9B0026E16A /* HW20 - Countries */ = {
 			isa = PBXGroup;
 			children = (
+				B20CD8232BDF76D2001C33AD /* Supporting Files */,
+				B20CD8222BDF76B1001C33AD /* Resources */,
 				B20CD8152BDC4B7E001C33AD /* CustomUIComponents */,
 				B20CD80B2BDB6FC9001C33AD /* UIExtensions */,
 				B26A6A302BD58D2C0026E16A /* NetworkServices */,
@@ -139,9 +166,6 @@
 				B26A6A252BD50FF30026E16A /* Fonts */,
 				B26A6A262BD510190026E16A /* App */,
 				B2F50B8D2BDAF5CC0013C34E /* Scenes */,
-				B26A6A162BD50E9E0026E16A /* Assets.xcassets */,
-				B26A6A182BD50E9E0026E16A /* LaunchScreen.storyboard */,
-				B26A6A1B2BD50E9E0026E16A /* Info.plist */,
 			);
 			path = "HW20 - Countries";
 			sourceTree = "<group>";
@@ -453,7 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "HW20 - Countries/Info.plist";
+				INFOPLIST_FILE = "HW20 - Countries/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -479,7 +503,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "HW20 - Countries/Info.plist";
+				INFOPLIST_FILE = "HW20 - Countries/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
